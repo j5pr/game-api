@@ -26,7 +26,7 @@ namespace GameAPI.Tasks
             IsComplete = true;
         }
 
-        public IEnumerator StartCoroutine()
+        public IEnumerator StartSync()
         {
             Run().Wait();
             yield break;

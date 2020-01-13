@@ -9,10 +9,8 @@ namespace GameAPI.Tasks.Generic
     {
         private readonly float delay;
 
-        public IdleTask(float tick = 0.1f)
-        {
+        public IdleTask(float tick = 0.1f) =>
             delay = tick;
-        }
 
         protected override async Task Run()
         {

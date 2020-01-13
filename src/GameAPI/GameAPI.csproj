@@ -1,16 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
+
+    <Authors>Brian Shao</Authors>
+    <Version>0.1.0</Version>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+
+    <PackageProjectUrl>https://github.com/arktfox/GameAPI</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/arktfox/GameAPI</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Unity</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <Reference Include="UnityEditor">
-      <HintPath>..\..\dependencies\UnityEditor.dll</HintPath>
+      <HintPath>..\..\lib\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\dependencies\UnityEngine.dll</HintPath>
+      <HintPath>..\..\lib\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -19,4 +29,10 @@
     <ProjectReference Include="..\GameAPI.Async\GameAPI.Async.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

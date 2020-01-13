@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using GameAPI.Async;
 using GameAPI.Items;
 using GameAPI.Tasks;
 
@@ -44,49 +46,58 @@ namespace GameAPI.Entities
 
             Move();
             LookAt();
-        }
 
-        private void LookAt() {
-            if (LookingAt != null) {
-                Quaternion direction = Quaternion.LookRotation(((Vector3)LookingAt - transform.position).normalized);
-
-                transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * RotationSpeed);
-                
-                if (!direction.Equals(transform.rotation.normalized))
-                    return;
-            }
-
-            if (Target != null && Target == LookingAt) // Lock on until target position is reached
-                return;
-            
-            LookingAt = null;
-        }
-
-        private void Move()
-        {
-            if (Target != null && !IsAt((Vector3)Target))
+            void Move()
             {
-                body.drag = WalkDrag;
-                body.AddForce(((Vector3)Target - transform.position).normalized * Speed * Time.deltaTime);
+                if (Target != null && !IsAt((Vector3)Target))
+                {
+                    body.drag = WalkDrag;
+                    body.AddForce(((Vector3)Target - transform.position).normalized * Speed * Time.deltaTime);
 
-                return;
+                    return;
+                }
+                
+                body.drag = HaltDrag;
+                Target = null;
             }
-            
-            body.drag = HaltDrag;
-            Target = null;
+
+            void LookAt()
+            {
+                if (LookingAt != null) {
+                    Quaternion direction = Quaternion.LookRotation(((Vector3)LookingAt - transform.position).normalized);
+
+                    transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * RotationSpeed);
+                    
+                    if (!direction.Equals(transform.rotation.normalized))
+                        return;
+                }
+
+                if (Target != null && Target == LookingAt) // Lock on until target position is reached
+                    return;
+                
+                LookingAt = null;
+            }
         }
 
-        public void RotateTowards(Vector3 target) =>
+        public VoidAwaitable Rotate(Vector3 target)
+        {
             LookingAt = target;
+        
+            return new VoidAwaitable(new Until(() => LookingAt == null).GetAwaiter());
+        }
 
-        public void RotateTowards<TTarget>(TTarget target) where TTarget : Component =>
-            RotateTowards(target.transform.position);
+        public VoidAwaitable Rotate<TTarget>(TTarget target) where TTarget : Component =>
+            Rotate(target.transform.position);
 
-        public void MoveTowards(Vector3 target, bool look = true) => 
+        public VoidAwaitable Move(Vector3 target, bool look = true)
+        {
             (Target, LookingAt) = (target, look ? target : LookingAt);
 
-        public void MoveTowards<TTarget>(TTarget target, bool look = true) where TTarget : Component =>
-            MoveTowards(target.transform.position, look);
+            return new VoidAwaitable(new Until(() => Target == null).GetAwaiter());   
+        }
+
+        public VoidAwaitable Move<TTarget>(TTarget target, bool look = true) where TTarget : Component =>
+            Move(target.transform.position, look);
 
         public void LookAt(Vector3 target) =>
             transform.rotation = Quaternion.LookRotation((target - transform.position).normalized);
@@ -94,11 +105,11 @@ namespace GameAPI.Entities
         public void LookAt<TTarget>(TTarget target) where TTarget : Component =>
             LookAt(target.transform.position);
 
-        public void TeleportTo(Vector3 target) =>
+        public void Teleport(Vector3 target) =>
             transform.position = target;
 
-        public void TeleportTo<TTarget>(TTarget target) where TTarget : Component =>
-            TeleportTo(target.transform.position);
+        public void Teleport<TTarget>(TTarget target) where TTarget : Component =>
+            Teleport(target.transform.position);
 
         public bool IsAt(Vector3 target) =>
             (target - transform.position).sqrMagnitude <= InteractionRange * InteractionRange;
@@ -106,39 +117,24 @@ namespace GameAPI.Entities
         public bool IsAt<TTarget>(TTarget target) where TTarget : Component =>
             IsAt(target.transform.position);
 
-        public TTarget? Nearest<TTarget>(List<TTarget>? targets = null) where TTarget: Component
-        {
-            TTarget? closest = null;
-            float minimumDistance = Mathf.Infinity;
-
-            foreach (TTarget target in targets ?? new List<TTarget>(FindObjectsOfType<TTarget>()))
-            {
-                if (target.transform == transform)
-                    continue;
-
-                float distance = Vector2.Distance(transform.position, target.transform.position);
-
-                if (distance < minimumDistance)
-                {
-                    closest = target;
-                    minimumDistance = distance;
-                }
-            }
-
-            return closest;
-        }
+        public TTarget? Nearest<TTarget>(List<TTarget>? targets = null) where TTarget: Component =>
+        (
+            from target in targets ?? new List<TTarget>(FindObjectsOfType<TTarget>())
+            let distance = Vector2.Distance(transform.position, target.transform.position)
+            where distance > 0
+            orderby distance
+            select target
+        ).FirstOrDefault();
     }
 
     public partial class Entity<TType> : TaskedBehaviour<TType>
     {
-        public static new Entity New(string name = "Entity")
-        {
-            return Derive(name).AddComponent<Entity>();
-        }
+        public static new Entity<TType> New(string name = "Entity") =>
+            Derive(name).AddComponent<Entity<TType>>();
 
         protected static new GameObject Derive(string name = "Entity")
         {
-            GameObject entity = TaskedBehaviour<Entity>.Derive(name);
+            GameObject entity = TaskedBehaviour<TType>.Derive(name);
 
             entity.AddComponent<Rigidbody>();
 

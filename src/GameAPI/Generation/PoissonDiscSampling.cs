@@ -28,7 +28,7 @@ namespace GameAPI.Generation {
                 {
                     float angle = Random.value * Mathf.PI * 2;
                     Vector2 direction = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
-                    Vector2 canidate = center + direction * Random.Range(radius, 2 * radius);
+                    Vector2 canidate = center + (direction * Random.Range(radius, 2 * radius));
 
                     if (IsValidPoint(canidate, regionSize, cellSize, points, grid))
                     {
@@ -69,9 +69,7 @@ namespace GameAPI.Generation {
                     if (index == -1)
                         continue;
 
-                    float sdist = (canidate - points[index]).sqrMagnitude;
-
-                    if (sdist < radius * radius)
+                    if ((canidate - points[index]).sqrMagnitude < radius * radius)
                         return false;
                 }
             }

@@ -8,14 +8,10 @@ namespace GameAPI.Tasks.Generic
     {
         private readonly float delay;
 
-        public WaitTask(float delay)
-        {
+        public WaitTask(float delay) =>
             this.delay = delay;
-        }
 
-        protected override async Task Run()
-        {
+        protected override async Task Run() =>
             await new Delay(delay);
-        }
     }
 }
