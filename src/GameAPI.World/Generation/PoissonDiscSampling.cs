@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameAPI.Generation {
+namespace GameAPI.World.Generation {
     public static class PoissonDiscSampling
     {
         public static List<Vector2> Generate(float radius, Vector2 regionSize, int samples = 32)

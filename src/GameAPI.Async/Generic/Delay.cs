@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace GameAPI.Async {
+namespace GameAPI.Async.Generic {
     public class Delay {
         private float delay;
 
@@ -13,6 +13,9 @@ namespace GameAPI.Async {
                 seconds;
 
         public TaskAwaiter GetAwaiter() =>
-            Task.Delay(TimeSpan.FromSeconds(delay)).GetAwaiter();
+            ((Task)this).GetAwaiter();
+
+        public static implicit operator Task(Delay delay) =>
+            Task.Delay(TimeSpan.FromSeconds(delay.delay));
     }
 }

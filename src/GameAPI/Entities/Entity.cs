@@ -1,23 +1,35 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using GameAPI.Async;
+﻿using GameAPI.Async;
+using GameAPI.Async.Generic;
 using GameAPI.Items;
 using GameAPI.Tasks;
+using GameAPI.Namespacing;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace GameAPI.Entities
 {
     public partial class Entity<TType> : TaskedBehaviour<TType> where TType: Entity<TType>
     {
+        [Header("Entity")]
+        public Key Id = Key.Unique("entity");
+
+        [Space(10)]
+        [Header("Statistics")]
         public int Health = 1;
         public int MaxHealth = 1;
         public int Damage = 1;
+
+        [Header("Movement")]
         public float Speed = 100f;
         public float RotationSpeed = 1f;
         public float InteractionRange = 0.5f;
 
+        [Header("World")]
         public float WalkDrag = 1.0f;
         public float HaltDrag = 1.75f;
+
+        [Header("Target")]
         public Vector3? Target = null;
         public Vector3? LookingAt = null;
 

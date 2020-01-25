@@ -4,6 +4,7 @@ using GameAPI.Namespacing;
 
 namespace GameAPI.Items
 {
+    [Serializable]
     public partial class Material
     {
         public static Dictionary<Key, Material> Table = new Dictionary<Key, Material>();

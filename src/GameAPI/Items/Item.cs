@@ -1,7 +1,9 @@
 ﻿using GameAPI.Namespacing;
+using System;
 
 namespace GameAPI.Items
 {
+    [Serializable]
     public class Item
     {
         public string Name;

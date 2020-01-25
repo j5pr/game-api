@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>C:\Users\brian\Documents\Code\Projects\.NET\WorldAPI\bin\GameAPI.Tasks\</OutputPath>
+    <OutputPath>C:\Users\brian\Documents\Code\Projects\.NET\WorldAPI\bin\GameAPI.Editor\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GameAPI\GameAPI.csproj" />
+    <ProjectReference Include="..\GameAPI.Tasks\GameAPI.Tasks.csproj" />
     <ProjectReference Include="..\GameAPI.Async\GameAPI.Async.csproj" />
   </ItemGroup>
 

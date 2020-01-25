@@ -1,4 +1,4 @@
-﻿using GameAPI.Async;
+﻿using GameAPI.Async.Generic;
 using System;
 using System.Threading.Tasks;
 
@@ -17,7 +17,7 @@ namespace GameAPI.Tasks.Generic
             await new Delay(delay);
 
             if (Target.TaskQueue.Count < 1)
-                Target.QueueTask(new IdleTask<TTarget>(delay));
+                Target.Queue(new IdleTask<TTarget>(delay));
         }
     }
 }

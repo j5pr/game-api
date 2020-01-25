@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAPI.Tasks", "src\GameAP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAPI.Async", "src\GameAPI.Async\GameAPI.Async.csproj", "{ECCE599A-896C-4D02-A849-1CC7116ABB53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAPI.World", "src\GameAPI.World\GameAPI.World.csproj", "{FAA83ABF-8C66-4042-BEFC-2125588CEE35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAPI.Editor", "src\GameAPI.Editor\GameAPI.Editor.csproj", "{F38BE86D-630F-4372-BF67-C9AFBF6E2608}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{ECCE599A-896C-4D02-A849-1CC7116ABB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECCE599A-896C-4D02-A849-1CC7116ABB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECCE599A-896C-4D02-A849-1CC7116ABB53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAA83ABF-8C66-4042-BEFC-2125588CEE35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAA83ABF-8C66-4042-BEFC-2125588CEE35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAA83ABF-8C66-4042-BEFC-2125588CEE35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAA83ABF-8C66-4042-BEFC-2125588CEE35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F38BE86D-630F-4372-BF67-C9AFBF6E2608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F38BE86D-630F-4372-BF67-C9AFBF6E2608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F38BE86D-630F-4372-BF67-C9AFBF6E2608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F38BE86D-630F-4372-BF67-C9AFBF6E2608}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

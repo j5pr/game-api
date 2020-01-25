@@ -15,6 +15,10 @@
     <PackageTags>Unity</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>C:\Users\brian\Documents\Code\Projects\.NET\WorldAPI\bin\GameAPI\</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="UnityEditor">
       <HintPath>..\..\lib\UnityEditor.dll</HintPath>

@@ -1,6 +1,5 @@
-﻿using GameAPI.Async;
+﻿using GameAPI.Async.Generic;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace GameAPI.Tasks.Generic
 {

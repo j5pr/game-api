@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace GameAPI.Tasks
 {
@@ -32,9 +33,10 @@ namespace GameAPI.Tasks
             yield break;
         }
 
-        public void Register(TTarget target)
-        {
+        public TaskAwaiter GetAwaiter() =>
+            Start().GetAwaiter();
+
+        public void Register(TTarget target) =>
             Target = target;
-        }
     }
 }

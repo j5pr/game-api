@@ -22,26 +22,6 @@ namespace GameAPI.Tasks
 
             if (!CurrentTask.IsRunning)
                 _ = CurrentTask!.Start();
-                // StartCoroutine(CurrentTask!.StartCoroutine());
-        }
-
-        public void ClearTasks()
-        {
-            TaskQueue.Clear();
-        }
-
-        public void QueueTask(params GameTask<TType>[] tasks)
-        {
-            foreach (GameTask<TType> task in tasks)
-                task.Register((this as TType)!);
-
-            TaskQueue.AddRange(tasks);
-        }
-
-        public void AssignTask(params GameTask<TType>[] tasks)
-        {
-            ClearTasks();
-            QueueTask(tasks);
         }
     }
 

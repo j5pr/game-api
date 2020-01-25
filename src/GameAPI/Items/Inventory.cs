@@ -10,15 +10,17 @@ namespace GameAPI.Items
 
         public int MaxSize;
 
-        public Item this[int i] => items[i];
-        public Item? this[Key k] => items.FirstOrDefault(e => e.Key == k);
+        public Item this[int i] =>
+        
+            items[i];
+        public Item? this[Key k] =>
+            items.FirstOrDefault(e => e.Key == k);
 
-        public Item? this[Material m] => items.FirstOrDefault(e => e.Material == m);
+        public Item? this[Material m] =>
+            this[m.Key];
 
-        public Inventory(int maxSize = int.MaxValue)
-        {
+        public Inventory(int maxSize = int.MaxValue) =>
             MaxSize = maxSize;
-        }
 
         public void Deposit(Item item, bool merge = true)
         {
@@ -39,9 +41,12 @@ namespace GameAPI.Items
             items.Add(item);
         }
 
+        public Item? Withdraw(Material material) =>
+            Withdraw(material.Key);
+
         public Item? Withdraw(Key k)
         {
-            Item i = items.FirstOrDefault(e => e.Key == k);
+            Item? i = this[k];
 
             if (i == null)
                 return null;
@@ -50,7 +55,13 @@ namespace GameAPI.Items
             return i;
         }
 
+        public bool Contians(Material material) =>
+            Contains(material.Key);
+
         public bool Contains(Key k) =>
             items.Exists(e => e.Key == k);
+
+        public List<Item> GetList() =>
+            items;
     }
 }
