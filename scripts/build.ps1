@@ -1,32 +1,37 @@
-$projects = @('GameAPI', 'GameAPI.Async', 'GameAPI.Editor', 'GameAPI.Tasks', 'GameAPI.World')
+Task "Build" {
+  $projects = @('GameAPI', 'GameAPI.Async', 'GameAPI.Editor', 'GameAPI.Tasks', 'GameAPI.World')
 
-# Clean output dir
-.\scripts\clean.ps1
+  Invoke-Task "clean"
 
-# Build .NET assembly
-Write-Output "$head BUILDING $head"
-  dotnet build -c Release
-Write-Output "$($n)Complete!$n"
+  Section -Unsafe "Build Sources" {
+    dotnet build -c Release | Out-Null
+  }
 
-# Create a DLL dir
-Write-Output "$head PREPARING $head"
-  New-Item -ItemType directory -Path '.\bin\dll' | Out-Null
-Write-Output "$($n)Complete!$n"
+  Section "Preparing" {
+    New-Item -ItemType directory -Path '.\bin\dll' | Out-Null
+  }
 
-# Collect DLLs
-Write-Output "$head COLLECTING $head"
-  foreach ($project in $projects)
-  {
-    try
+  Section -Unsafe "Collecting Binaries" {
+    $failed = $false
+
+    foreach ($project in $projects)
     {
-      $dest = Join-Path (Resolve-Path .) "bin\dll\$project.dll"
+      try
+      {
+        $dest = Join-Path (Resolve-Path .) "bin\dll\$project.dll"
 
-      Copy-Item -Path ".\bin\$project\netstandard2.1\$project.dll" -Destination $dest -ErrorAction Stop | Out-Null
-      Write-Output "  $project -> $dest"
+        Copy-Item -Path ".\bin\$project\netstandard2.1\$project.dll" -Destination $dest -ErrorAction Stop | Out-Null
+        Out-Message "$project -> $dest"
+      }
+      catch
+      {
+        Out-Message "$project -> (Failed)"
+        $failed = $true
+      }
     }
-    catch
-    {
-      Write-Output "  $project -> (Failed)"
+
+    if ($failed) {
+      throw "Some binaries could not be collected!"
     }
   }
-Write-Output "$($n)Complete!$n"
+}

@@ -103,7 +103,8 @@ namespace GameAPI.Entities
 
         public VoidAwaitable Move(Vector3 target, bool look = true)
         {
-            (Target, LookingAt) = (target, look ? target : LookingAt);
+            Target = target;
+            LookingAt = look ? target : LookingAt;
 
             return new VoidAwaitable(new Until(() => Target == null).GetAwaiter());   
         }
@@ -128,6 +129,9 @@ namespace GameAPI.Entities
 
         public bool IsAt<TTarget>(TTarget target) where TTarget : Component =>
             IsAt(target.transform.position);
+
+        public void Destroy() =>
+            Destroy(gameObject);
 
         public TTarget? Nearest<TTarget>(List<TTarget>? targets = null) where TTarget: Component =>
         (
