@@ -38,8 +38,18 @@ namespace GameAPI.Tasks
         public void TaskLoop();
     }
 
-    public static class ITaskRunner
+    public static class ITaskRunnerExetensions
     {
-        public static ITaskRunner<T> Of<T>(ITaskRunner<T> t) where T: ITaskRunner<T> => t;
+        public static void Queue<TType>(this ITaskRunner<TType> t, params GameTask<TType>[] tasks) where TType : ITaskRunner<TType> =>
+            t.Queue(tasks);
+
+        public static void QueueFirst<TType>(this ITaskRunner<TType> t, params GameTask<TType>[] tasks) where TType : ITaskRunner<TType> =>
+            t.QueueFirst(tasks);
+
+        public static void ClearTasks<TType>(this ITaskRunner<TType> t) where TType : ITaskRunner<TType> =>
+            t.ClearTasks();
+
+        public static void Assign<TType>(this ITaskRunner<TType> t, params GameTask<TType>[] tasks) where TType : ITaskRunner<TType> =>
+            t.Assign(tasks);
     }
 }

@@ -40,10 +40,10 @@ namespace GameAPI.Namespacing
         public static explicit operator string(Key key) =>
             key.Id;
 
-        public static implicit operator Key(string value) {
-            string[] parts = value.Split(':', 2);
-            return new Key(parts[0], parts[1]);
-        }
+        public static implicit operator Key(string value) => new Key(
+            value.Substring(0, value.IndexOf(':')),
+            value.Substring(value.IndexOf(':') + 1)
+        );
 
         public static implicit operator Key((string Namespace, string Value) value) =>
             new Key(value.Namespace, value.Value);

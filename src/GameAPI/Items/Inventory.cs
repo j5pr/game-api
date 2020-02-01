@@ -11,8 +11,8 @@ namespace GameAPI.Items
         public int MaxSize;
 
         public Item this[int i] =>
-        
             items[i];
+
         public Item? this[Key k] =>
             items.FirstOrDefault(e => e.Key == k);
 
@@ -26,7 +26,7 @@ namespace GameAPI.Items
         {
             if (merge)
             {
-                Item orig = items.FirstOrDefault(e => e.Key == item.Key);
+                Item? orig = this[item.Key];
 
                 if (orig != null)
                 {
@@ -41,6 +41,11 @@ namespace GameAPI.Items
             items.Add(item);
         }
 
+        public void DepositAll(List<Item> items, bool merge = true) {
+            foreach (Item item in items)
+                Deposit(item, merge);
+        }
+
         public Item? Withdraw(Material material) =>
             Withdraw(material.Key);
 
@@ -53,6 +58,14 @@ namespace GameAPI.Items
 
             items.Remove(i);
             return i;
+        }
+
+        public List<Item> WithdrawAll() {
+            List<Item> items = new List<Item>(this.items);
+
+            this.items.Clear();
+
+            return items;
         }
 
         public bool Contians(Material material) =>

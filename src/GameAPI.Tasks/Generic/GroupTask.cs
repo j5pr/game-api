@@ -16,7 +16,7 @@ namespace GameAPI.Tasks.Generic
         }
 
         public GroupTask(params GameTask<TTarget>[] tasks) =>
-            ITaskRunner.Of(this).Queue(tasks);
+            this.Queue(tasks);
 
         protected override async Task Run()
         {

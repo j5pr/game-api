@@ -5,6 +5,8 @@ namespace GameAPI.Tasks
 {
     public partial class TaskedBehaviour<TType> : MonoBehaviour, ITaskRunner<TType> where TType : TaskedBehaviour<TType>
     {
+        protected ITaskRunner<TType> tasks => this;
+
         public List<GameTask<TType>> TaskQueue { get; } = new List<GameTask<TType>>();
         public GameTask<TType>? CurrentTask { get; private set; } = null;
 

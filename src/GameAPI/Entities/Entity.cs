@@ -76,12 +76,16 @@ namespace GameAPI.Entities
             void LookAt()
             {
                 if (LookingAt != null) {
-                    Quaternion direction = Quaternion.LookRotation(((Vector3)LookingAt - transform.position).normalized);
+                    Vector3 dir = ((Vector3)LookingAt - transform.position).normalized;
 
-                    transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * RotationSpeed);
-                    
-                    if (!direction.Equals(transform.rotation.normalized))
-                        return;
+                    if (dir != Vector3.zero) {
+                        Quaternion direction = Quaternion.LookRotation(dir);
+
+                        transform.rotation = Quaternion.Slerp(transform.rotation, direction, Time.deltaTime * RotationSpeed);
+                        
+                        if (!direction.Equals(transform.rotation.normalized))
+                            return;
+                    }
                 }
 
                 if (Target != null && Target == LookingAt) // Lock on until target position is reached
